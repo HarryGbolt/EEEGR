@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoVolt – Our Team</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,300;1,9..144,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --baltic:  #05668D;
+    --black:   #0A0908;
+    --verd:    #00A896;
+    --smoke:   #F2F4F3;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--smoke);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(10,9,8,0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(0,168,150,0.15);
+  }
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-weight: 700; font-size: 1.55rem;
+    letter-spacing: -0.01em; color: var(--smoke);
+    text-decoration: none;
+  }
+  .logo span { color: var(--verd); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: rgba(242,244,243,0.6);
+    font-size: 0.82rem; letter-spacing: 0.07em; text-transform: uppercase;
+    transition: color .25s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--verd); }
+
+  /* ── HERO ── */
+  .team-hero {
+    min-height: 55vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 3rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .team-hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 60% 70% at 100% 0%, rgba(5,102,141,0.2) 0%, transparent 65%),
+      radial-gradient(ellipse 40% 40% at 0% 100%, rgba(0,168,150,0.12) 0%, transparent 60%),
+      var(--black);
+  }
+  .hero-tag {
+    font-size:.75rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--verd); margin-bottom:1.4rem; position:relative; z-index:1;
+    display:flex; align-items:center; gap:.7rem;
+  }
+  .hero-tag::before { content:''; width:2rem; height:1px; background:var(--verd); display:block; }
+  h1 {
+    font-family:'Fraunces', serif; font-weight:700;
+    font-size: clamp(3rem, 6vw, 5.5rem); line-height:1.05;
+    letter-spacing:-.02em; position:relative; z-index:1; max-width: 800px;
+  }
+  h1 em { color:var(--verd); font-style:italic; }
+  .hero-sub {
+    margin-top:1.5rem; max-width:520px; font-size:1rem;
+    color:rgba(242,244,243,.55); line-height:1.75; position:relative; z-index:1;
+  }
+
+  /* ── TEAM SECTION ── */
+  .team-section { padding: 5rem 3rem; }
+
+  .section-tag {
+    font-size:.7rem; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--verd); margin-bottom:.9rem;
+    display:flex; align-items:center; gap:.6rem;
+  }
+  .section-tag::before{ content:''; width:1.5rem; height:1px; background:var(--verd); }
+  h2 {
+    font-family:'Fraunces',serif; font-weight:700;
+    font-size: clamp(2rem,3.5vw,3rem); letter-spacing:-.02em;
+    line-height:1.1; margin-bottom:3rem;
+  }
+  h2 em { color:var(--verd); font-style:italic; }
+
+  /* ── TEAM GRID ── */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: rgba(0,168,150,0.08);
+    border: 1px solid rgba(0,168,150,0.08);
+  }
+  .team-card {
+    background: var(--black);
+    padding: 2.5rem 2rem;
+    position: relative;
+    transition: background .3s;
+  }
+  .team-card:hover { background: rgba(0,168,150,0.04); }
+
+  .member-avatar {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: rgba(5,102,141,0.25);
+    border: 1px solid rgba(0,168,150,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif; font-weight: 700; font-size: 1.4rem;
+    color: var(--verd); margin-bottom: 1.5rem;
+    text-transform: uppercase;
+  }
+  .member-role {
+    font-size:.65rem; letter-spacing:.13em; text-transform:uppercase;
+    color:var(--verd); margin-bottom:.5rem;
+  }
+  .team-card h3 {
+    font-family:'Fraunces',serif; font-weight:700; font-size:1.3rem;
+    margin-bottom:.8rem; color:var(--smoke);
+  }
+  .team-card p {
+    font-size:.88rem; color:rgba(242,244,243,.48); line-height:1.75;
+  }
+  .member-tags {
+    display: flex; flex-wrap: wrap; gap: .4rem; margin-top: 1.3rem;
+  }
+  .tag {
+    font-size:.65rem; letter-spacing:.07em; text-transform:uppercase;
+    color:rgba(242,244,243,.4); background:rgba(242,244,243,.05);
+    border:1px solid rgba(242,244,243,.08);
+    padding:.25rem .6rem; border-radius:2px;
+  }
+
+  /* ── PLACEHOLDER CARD ── */
+  .team-card.empty {
+    border: 1px dashed rgba(0,168,150,0.15);
+    background: transparent;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; text-align: center;
+    min-height: 260px;
+  }
+  .team-card.empty .plus {
+    font-size: 2rem; color: rgba(0,168,150,.2); margin-bottom: .8rem;
+  }
+  .team-card.empty p {
+    font-size:.8rem; color:rgba(242,244,243,.2); letter-spacing:.06em;
+    text-transform: uppercase;
+  }
+
+  /* ── ABOUT SECTION ── */
+  .about-team {
+    padding: 4rem 3rem 6rem;
+    background: rgba(5,102,141,0.04);
+    border-top: 1px solid rgba(0,168,150,0.07);
+  }
+  .about-team p {
+    max-width: 640px; font-size:1rem;
+    color:rgba(242,244,243,.55); line-height:1.85;
+    margin-top: 1.5rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background:rgba(5,102,141,0.05);
+    border-top:1px solid rgba(0,168,150,0.1);
+    padding:2.5rem 3rem;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;
+  }
+  .footer-logo { font-family:'Fraunces',serif; font-weight:700; font-size:1.25rem; }
+  .footer-logo span{ color:var(--verd); }
+  footer p { font-size:.78rem; color:rgba(242,244,243,.3); }
+  footer a { color:rgba(242,244,243,.4); text-decoration:none; font-size:.78rem; transition:color .2s; }
+  footer a:hover{ color:var(--verd); }
+
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Eco<span>Volt</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#technology">Technology</a></li>
+    <li><a href="index.html#process">Process</a></li>
+    <li><a href="index.html#location">Location</a></li>
+    <li><a href="index.html#stakeholders">Stakeholders</a></li>
+    <li><a href="index.html#costs">Costs</a></li>
+    <li><a href="team.html" class="active">Team</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="team-hero">
+  <div class="team-hero-bg"></div>
+  <div class="hero-tag">The People Behind the Plant</div>
+  <h1>Meet the<br><em>EcoVolt Team</em></h1>
+  <p class="hero-sub">
+    A student-led team combining engineering, finance, research, and communication 
+    skills to design a green hydrogen plant from the ground up.
+  </p>
+</div>
+
+<!-- TEAM GRID -->
+<div class="team-section">
+  <div class="section-tag">Team Members</div>
+  <h2>Who We <em>Are</em></h2>
+
+  <div class="team-grid reveal">
+
+    <!-- Add your real team members below — replace initials, name, role, bio, and tags -->
+
+    <div class="team-card">
+      <div class="member-avatar">AB</div>
+      <div class="member-role">Project Lead</div>
+      <h3>Team Member</h3>
+      <p>Responsible for overall project coordination, timeline management, and ensuring all workstreams come together coherently for the final submission.</p>
+      <div class="member-tags">
+        <span class="tag">Leadership</span>
+        <span class="tag">Strategy</span>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="member-avatar">CD</div>
+      <div class="member-role">Engineering Lead</div>
+      <h3>Team Member</h3>
+      <p>Leads the technical design of the PEM electrolyser system, water treatment plant, and hydrogen storage specification.</p>
+      <div class="member-tags">
+        <span class="tag">PEM</span>
+        <span class="tag">Systems Design</span>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="member-avatar">EF</div>
+      <div class="member-role">Finance & Research</div>
+      <h3>Team Member</h3>
+      <p>Manages the project cost model, LCOH analysis, and financial research including capex, O&M, and stack replacement cycles.</p>
+      <div class="member-tags">
+        <span class="tag">Finance</span>
+        <span class="tag">Research</span>
+      </div>
+    </div>
+
+    <div class="team-card">
+      <div class="member-avatar">GH</div>
+      <div class="member-role">Communications</div>
+      <h3>Team Member</h3>
+      <p>Handles stakeholder engagement strategy, presentation materials, and the public-facing website and documentation.</p>
+      <div class="member-tags">
+        <span class="tag">Comms</span>
+        <span class="tag">Stakeholders</span>
+      </div>
+    </div>
+
+    <!-- Empty placeholder slot -->
+    <div class="team-card empty">
+      <div class="plus">+</div>
+      <p>Add team member</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- ABOUT THE TEAM -->
+<div class="about-team reveal">
+  <div class="section-tag">Our Background</div>
+  <h2>Student-Led,<br><em>Seriously Built</em></h2>
+  <p>
+    EcoVolt is a student project designing a real, costed, community-scale green hydrogen 
+    plant. Our team brings together skills from engineering, physics, economics, and web 
+    development to produce a proposal that holds up to professional scrutiny — from 
+    electrolyser stack selection to stakeholder mapping and financial modelling.
+  </p>
+</div>
+
+<footer>
+  <div class="footer-logo">Eco<span>Volt</span></div>
+  <p>EcoVolt Green Hydrogen Plant — Student Project</p>
+  <a href="index.html">← Back to Home</a>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => io.observe(r));
+</script>
+</body>
+</html>
