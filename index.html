@@ -1,11 +1,539 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoVolt – Green Hydrogen Plant</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --baltic:  #05668D;
+    --black:   #0A0908;
+    --verd:    #00A896;
+    --smoke:   #F2F4F3;
+    --verd-dim: rgba(0,168,150,0.12);
+    --baltic-dim: rgba(5,102,141,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--smoke);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(10,9,8,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0,168,150,0.18);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.5rem;
+    letter-spacing: -0.02em;
+    color: var(--smoke);
+  }
+  .logo span { color: var(--verd); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    text-decoration: none; color: rgba(242,244,243,0.65);
+    font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
+    transition: color .25s;
+  }
+  .nav-links a:hover { color: var(--verd); }
+  .nav-badge {
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--verd); border: 1px solid var(--verd);
+    padding: .35rem .8rem; border-radius: 2px;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 3rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 70% 60% at 80% 30%, rgba(0,168,150,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 10% 70%, rgba(5,102,141,0.25) 0%, transparent 65%),
+      var(--black);
+  }
+  .ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(0,168,150,0.12);
+    animation: pulse 6s ease-in-out infinite;
+  }
+  .ring:nth-child(1){ width:600px;height:600px;right:-150px;top:-150px;animation-delay:0s; }
+  .ring:nth-child(2){ width:400px;height:400px;right:-50px;top:-50px;animation-delay:1s;border-color:rgba(5,102,141,0.15); }
+  .ring:nth-child(3){ width:200px;height:200px;right:50px;top:50px;animation-delay:2s; }
+  @keyframes pulse {
+    0%,100%{ transform:scale(1); opacity:.7; }
+    50%{ transform:scale(1.05); opacity:1; }
+  }
+  .hero-tag {
+    font-size:.78rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--verd); margin-bottom:1.2rem; position:relative; z-index:1;
+    display:flex; align-items:center; gap:.6rem;
+  }
+  .hero-tag::before {
+    content:''; width:2rem; height:1px; background:var(--verd); display:block;
+  }
+  h1 {
+    font-family:'Syne',sans-serif; font-weight:800;
+    font-size: clamp(3rem, 8vw, 7rem); line-height:.95;
+    letter-spacing:-.03em; position:relative; z-index:1;
+    max-width: 900px;
+  }
+  h1 em { color:var(--verd); font-style:normal; }
+  .hero-sub {
+    margin-top:2rem; max-width:520px; font-size:1.05rem;
+    color:rgba(242,244,243,.6); line-height:1.7; position:relative; z-index:1;
+  }
+  .hero-ctas {
+    margin-top:2.5rem; display:flex; gap:1rem; flex-wrap:wrap; position:relative; z-index:1;
+  }
+  .btn-primary {
+    background:var(--verd); color:var(--black);
+    padding:.85rem 2rem; font-family:'Syne',sans-serif; font-weight:700;
+    font-size:.85rem; letter-spacing:.06em; text-transform:uppercase;
+    border:none; cursor:pointer; transition:background .25s, transform .2s;
+  }
+  .btn-primary:hover{ background:#00c4b0; transform:translateY(-2px); }
+  .btn-outline {
+    background:transparent; color:var(--smoke);
+    padding:.85rem 2rem; font-family:'Syne',sans-serif; font-weight:600;
+    font-size:.85rem; letter-spacing:.06em; text-transform:uppercase;
+    border:1px solid rgba(242,244,243,.3); cursor:pointer; transition:border-color .25s;
+  }
+  .btn-outline:hover{ border-color:var(--verd); color:var(--verd); }
+
+  /* ── STATS BAR ── */
+  .stats-bar {
+    background: rgba(5,102,141,0.12);
+    border-top: 1px solid rgba(0,168,150,0.15);
+    border-bottom: 1px solid rgba(0,168,150,0.15);
+    display:flex; justify-content:space-around; flex-wrap:wrap;
+    padding:2.5rem 3rem; gap:2rem;
+  }
+  .stat { text-align:center; }
+  .stat-num {
+    font-family:'Syne',sans-serif; font-weight:800;
+    font-size:2.4rem; color:var(--verd); letter-spacing:-.04em;
+  }
+  .stat-label {
+    font-size:.75rem; letter-spacing:.1em; text-transform:uppercase;
+    color:rgba(242,244,243,.5); margin-top:.3rem;
+  }
+
+  /* ── SECTIONS SHARED ── */
+  section { padding:6rem 3rem; }
+  .section-tag {
+    font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--verd); margin-bottom:.8rem;
+    display:flex; align-items:center; gap:.6rem;
+  }
+  .section-tag::before{ content:''; width:1.5rem; height:1px; background:var(--verd); }
+  h2 {
+    font-family:'Syne',sans-serif; font-weight:800;
+    font-size: clamp(2rem,4vw,3.2rem); letter-spacing:-.03em;
+    line-height:1.05; margin-bottom:1.5rem;
+  }
+  h2 em { color:var(--verd); font-style:normal; }
+  .section-intro { max-width:600px; color:rgba(242,244,243,.6); line-height:1.8; font-size:1rem; }
+
+  /* ── ABOUT ── */
+  #about { background: linear-gradient(180deg, var(--black) 0%, rgba(5,102,141,0.06) 100%); }
+  .competition-pill {
+    display:inline-flex; align-items:center; gap:.5rem;
+    background:rgba(0,168,150,0.1); border:1px solid rgba(0,168,150,0.3);
+    padding:.5rem 1rem; border-radius:2px; margin-top:1.5rem;
+    font-size:.8rem; color:var(--verd); letter-spacing:.06em;
+  }
+
+  /* ── TECHNOLOGY ── */
+  #technology { background: var(--black); }
+  .tech-grid {
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:1px; background:rgba(0,168,150,0.1);
+    border:1px solid rgba(0,168,150,0.1); margin-top:3.5rem;
+  }
+  .tech-card {
+    background:var(--black); padding:2.5rem 2rem;
+    transition:background .3s;
+    position:relative; overflow:hidden;
+  }
+  .tech-card:hover{ background: rgba(0,168,150,0.06); }
+  .tech-icon {
+    width:48px; height:48px; border:1px solid rgba(0,168,150,0.3);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--verd); font-size:1.4rem; margin-bottom:1.5rem;
+  }
+  .tech-card h3 {
+    font-family:'Syne',sans-serif; font-weight:700; font-size:1.1rem;
+    margin-bottom:.7rem; color:var(--smoke);
+  }
+  .tech-card p { font-size:.9rem; color:rgba(242,244,243,.55); line-height:1.7; }
+  .tech-status {
+    position:absolute; top:1.2rem; right:1.2rem;
+    font-size:.65rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--verd); background:rgba(0,168,150,0.1);
+    padding:.25rem .6rem; border-radius:2px;
+  }
+
+  /* ── PROCESS ── */
+  #process { background: rgba(5,102,141,0.04); border-top:1px solid rgba(0,168,150,0.08); border-bottom:1px solid rgba(0,168,150,0.08); }
+  .process-steps {
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+    gap:0; margin-top:3.5rem; position:relative;
+  }
+  .process-steps::before {
+    content:''; position:absolute; top:2.2rem; left:0; right:0; height:1px;
+    background:linear-gradient(90deg, transparent, var(--verd), transparent);
+    opacity:.3;
+  }
+  .step { padding:0 1.5rem 0 0; position:relative; }
+  .step-num {
+    font-family:'Syne',sans-serif; font-weight:800; font-size:3rem;
+    color:rgba(0,168,150,0.15); line-height:1; margin-bottom:1.5rem;
+  }
+  .step h3 {
+    font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem;
+    letter-spacing:.04em; margin-bottom:.6rem; color:var(--smoke);
+  }
+  .step p { font-size:.85rem; color:rgba(242,244,243,.5); line-height:1.7; }
+
+  /* ── MAP ── */
+  #location { background:var(--black); }
+  .map-placeholder {
+    margin-top:3rem;
+    background:rgba(5,102,141,0.07);
+    border:1px solid rgba(0,168,150,0.18);
+    height:420px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:1rem;
+    position:relative; overflow:hidden;
+  }
+  .map-grid {
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(rgba(0,168,150,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,168,150,0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  .map-pin {
+    width:20px;height:20px; border-radius:50%;
+    background:var(--verd); box-shadow:0 0 30px var(--verd);
+    animation:ping 2s ease-in-out infinite;
+  }
+  @keyframes ping {
+    0%,100%{ box-shadow:0 0 0 0 rgba(0,168,150,.7); }
+    50%{ box-shadow:0 0 0 20px rgba(0,168,150,0); }
+  }
+  .map-label {
+    font-family:'Syne',sans-serif; font-size:1rem; font-weight:600;
+    color:rgba(242,244,243,.5); letter-spacing:.06em;
+  }
+  .map-sub { font-size:.8rem; color:rgba(0,168,150,.6); letter-spacing:.08em; text-transform:uppercase; }
+
+  /* ── STAKEHOLDERS ── */
+  #stakeholders { background:rgba(5,102,141,0.04); }
+  .stakeholder-grid {
+    display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1.5rem; margin-top:3.5rem;
+  }
+  .stakeholder-card {
+    border:1px solid rgba(0,168,150,0.15); padding:2rem 1.5rem;
+    position:relative;
+    transition:border-color .3s, transform .3s;
+  }
+  .stakeholder-card:hover{ border-color:var(--verd); transform:translateY(-4px); }
+  .sk-type {
+    font-size:.65rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--verd); margin-bottom:.8rem;
+  }
+  .stakeholder-card h3 {
+    font-family:'Syne',sans-serif; font-weight:700; font-size:1.05rem;
+    margin-bottom:.6rem;
+  }
+  .stakeholder-card p { font-size:.85rem; color:rgba(242,244,243,.5); line-height:1.6; }
+  .sk-interest {
+    margin-top:1rem; font-size:.75rem; letter-spacing:.06em;
+    color:rgba(0,168,150,.7);
+    display:flex; align-items:center; gap:.4rem;
+  }
+  .sk-interest::before{ content:'↗'; }
+
+  /* ── COSTS ── */
+  #costs { background:var(--black); }
+  .cost-coming-soon {
+    margin-top:3rem; border:1px dashed rgba(0,168,150,0.25);
+    padding:3rem; text-align:center;
+  }
+  .cost-coming-soon p { color:rgba(242,244,243,.35); font-size:.9rem; letter-spacing:.06em; }
+
+  /* ── FOOTER ── */
+  footer {
+    background:rgba(5,102,141,0.06);
+    border-top:1px solid rgba(0,168,150,0.12);
+    padding:3rem;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;
+  }
+  .footer-logo {
+    font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem;
+  }
+  .footer-logo span{ color:var(--verd); }
+  footer p { font-size:.8rem; color:rgba(242,244,243,.35); }
+  .eeegr-badge {
+    font-size:.7rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--baltic); border:1px solid var(--baltic);
+    padding:.3rem .7rem;
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+</style>
 </head>
 <body>
-    
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Eco<span>Volt</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#technology">Technology</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#location">Location</a></li>
+    <li><a href="#stakeholders">Stakeholders</a></li>
+    <li><a href="#costs">Costs</a></li>
+  </ul>
+  <div class="nav-badge">EEEGR 2026</div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+  </div>
+  <div class="hero-tag">EcoVolt — EEEGR Energy Competition</div>
+  <h1>Locally Produced<br><em>Green Hydrogen</em></h1>
+  <p class="hero-sub">
+    A community-scale PEM electrolyser plant delivering zero-carbon hydrogen fuel, 
+    manufactured on-site using renewable energy — right here in our local area.
+  </p>
+  <div class="hero-ctas">
+    <button class="btn-primary" onclick="document.getElementById('technology').scrollIntoView({behavior:'smooth'})">Explore the Plant</button>
+    <button class="btn-outline" onclick="document.getElementById('stakeholders').scrollIntoView({behavior:'smooth'})">Our Stakeholders</button>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar reveal">
+  <div class="stat">
+    <div class="stat-num">PEM</div>
+    <div class="stat-label">Electrolyser Technology</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">H₂O</div>
+    <div class="stat-label">On-site Water Treatment</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">0 CO₂</div>
+    <div class="stat-label">Operational Emissions</div>
+  </div>
+  <div class="stat">
+    <div class="stat-num">700 bar</div>
+    <div class="stat-label">Storage Capability</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-tag">About the Project</div>
+  <h2>Green Hydrogen<br>for <em>Our Community</em></h2>
+  <p class="section-intro reveal">
+    EcoVolt is a student-led engineering proposal entered into the EEEGR Energy Competition. 
+    We are designing a fully integrated green hydrogen production facility — from water intake 
+    and electrolysis to compressed storage and a public fuelling station — to demonstrate 
+    that clean hydrogen can be produced locally at a community scale.
+  </p>
+  <div class="competition-pill reveal">🏆 EEEGR Energy Competition Entry — EcoVolt 2026</div>
+</section>
+
+<!-- TECHNOLOGY -->
+<section id="technology">
+  <div class="section-tag">Core Infrastructure</div>
+  <h2>Four Systems,<br><em>One Plant</em></h2>
+  <p class="section-intro reveal">
+    Our facility integrates four key components working in sequence to produce, store, 
+    and distribute green hydrogen with maximum efficiency and minimal environmental impact.
+  </p>
+  <div class="tech-grid reveal">
+    <div class="tech-card">
+      <div class="tech-status">Core</div>
+      <div class="tech-icon">⚡</div>
+      <h3>PEM Electrolyser</h3>
+      <p>A Proton Exchange Membrane electrolyser splits purified water into hydrogen and oxygen using renewable electricity. High efficiency, fast response, compact footprint.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-status">Upstream</div>
+      <div class="tech-icon">💧</div>
+      <h3>Water Treatment Plant</h3>
+      <p>On-site ultrapure water production using reverse osmosis and deionisation. Ensures the PEM stack receives feedwater meeting IEC 62282 specifications.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-status">Storage</div>
+      <div class="tech-icon">🔒</div>
+      <h3>Hydrogen Storage</h3>
+      <p>Compressed gaseous hydrogen stored in high-pressure vessels on site. Buffer capacity decouples production from demand, enabling 24/7 availability.</p>
+    </div>
+    <div class="tech-card">
+      <div class="tech-status">Offtake</div>
+      <div class="tech-icon">⛽</div>
+      <h3>Fuelling Station</h3>
+      <p>A basic hydrogen refuelling point for fuel cell vehicles and local fleet operators. First-of-kind infrastructure for our local area, enabling regional decarbonisation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-tag">How It Works</div>
+  <h2>From <em>Electrons</em><br>to Fuel</h2>
+  <div class="process-steps reveal">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h3>Renewable Input</h3>
+      <p>Grid or direct renewable electricity powers the facility during periods of surplus generation.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h3>Water Treatment</h3>
+      <p>Mains water is purified on-site to ultrapure standard before entering the electrolyser stack.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h3>Electrolysis</h3>
+      <p>The PEM stack splits H₂O into hydrogen and oxygen gas. Oxygen is vented; hydrogen is captured.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h3>Compression & Storage</h3>
+      <p>Hydrogen is compressed and stored on-site in high-pressure tanks, ready for dispensing.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">05</div>
+      <h3>Fuelling</h3>
+      <p>Vehicles and local users access hydrogen at our on-site fuelling station — zero tailpipe emissions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION / MAP -->
+<section id="location">
+  <div class="section-tag">Site Location</div>
+  <h2>A Local<br><em>Solution</em></h2>
+  <p class="section-intro reveal">
+    The exact site is currently under evaluation. We are assessing locations in our local area 
+    based on grid connection availability, water access, transport links, and planning constraints. 
+    The map will be updated once a site has been confirmed.
+  </p>
+  <div class="map-placeholder reveal">
+    <div class="map-grid"></div>
+    <div class="map-pin"></div>
+    <div class="map-label">Site TBC</div>
+    <div class="map-sub">Location under evaluation — Norfolk region</div>
+  </div>
+</section>
+
+<!-- STAKEHOLDERS -->
+<section id="stakeholders">
+  <div class="section-tag">Stakeholders</div>
+  <h2>Who's<br><em>Involved</em></h2>
+  <p class="section-intro reveal">
+    A project of this scale requires engagement with a wide range of stakeholders — 
+    from the community who will benefit, to regulators, investors, and technology suppliers.
+  </p>
+  <div class="stakeholder-grid reveal">
+    <div class="stakeholder-card">
+      <div class="sk-type">Community</div>
+      <h3>Local Residents</h3>
+      <p>Neighbours and community members affected by or benefiting from the plant's construction and operation.</p>
+      <div class="sk-interest">Clean air, local jobs, energy security</div>
+    </div>
+    <div class="stakeholder-card">
+      <div class="sk-type">Regulatory</div>
+      <h3>Local Authority</h3>
+      <p>Planning permission, environmental permits, and safety licensing fall under local and national government oversight.</p>
+      <div class="sk-interest">Compliance, planning, safety</div>
+    </div>
+    <div class="stakeholder-card">
+      <div class="sk-type">Financial</div>
+      <h3>Investors</h3>
+      <p>Private and institutional investors providing capital for construction, equipment procurement, and commissioning.</p>
+      <div class="sk-interest">ROI, ESG alignment, risk</div>
+    </div>
+    <div class="stakeholder-card">
+      <div class="sk-type">Technology</div>
+      <h3>Equipment Suppliers</h3>
+      <p>PEM electrolyser manufacturers, water treatment vendors, and compression system suppliers.</p>
+      <div class="sk-interest">Contracts, SLAs, maintenance</div>
+    </div>
+    <div class="stakeholder-card">
+      <div class="sk-type">Offtake</div>
+      <h3>Fleet Operators</h3>
+      <p>Local businesses and transport operators who would become hydrogen fuel customers, providing revenue certainty.</p>
+      <div class="sk-interest">Fuel cost, supply reliability</div>
+    </div>
+    <div class="stakeholder-card">
+      <div class="sk-type">Energy</div>
+      <h3>Grid / Renewables</h3>
+      <p>The electricity network and renewable generators whose surplus power will feed the electrolyser.</p>
+      <div class="sk-interest">Curtailment value, grid stability</div>
+    </div>
+  </div>
+</section>
+
+<!-- COSTS -->
+<section id="costs">
+  <div class="section-tag">Cost Breakdown</div>
+  <h2>Project<br><em>Financials</em></h2>
+  <p class="section-intro reveal">
+    A full cost model covering capital expenditure, operations & maintenance, 
+    stack replacement cycles, and levelised cost of hydrogen (LCOH) will be added here 
+    once the financial analysis is complete.
+  </p>
+  <div class="cost-coming-soon reveal">
+    <p>COST DATA COMING SOON — CHECK BACK AFTER SUBMISSION</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Eco<span>Volt</span></div>
+  <p>EEEGR Energy Competition 2026 — Student Project Entry</p>
+  <div class="eeegr-badge">EEEGR</div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => io.observe(r));
+</script>
 </body>
 </html>
