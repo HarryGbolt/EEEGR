@@ -32,8 +32,8 @@
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 1.2rem 3rem;
-    background: rgba(10,9,8,0.85);
-    backdrop-filter: blur(12px);
+    background: rgba(10,9,8,0.92);
+    backdrop-filter: blur(14px);
     border-bottom: 1px solid rgba(0,168,150,0.18);
   }
   .logo {
@@ -41,19 +41,45 @@
     font-weight: 800; font-size: 1.5rem;
     letter-spacing: -0.02em;
     color: var(--smoke);
+    flex-shrink: 0;
   }
   .logo span { color: var(--verd); }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: nowrap; }
   .nav-links a {
     text-decoration: none; color: rgba(242,244,243,0.65);
-    font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
-    transition: color .25s;
+    font-size: 0.82rem; letter-spacing: 0.05em; text-transform: uppercase;
+    transition: color .25s; white-space: nowrap;
   }
   .nav-links a:hover { color: var(--verd); }
-  .nav-badge {
-    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
-    color: var(--verd); border: 1px solid var(--verd);
-    padding: .35rem .8rem; border-radius: 2px;
+
+  /* Hamburger */
+  .nav-toggle {
+    display: none;
+    flex-direction: column; gap: 5px; cursor: pointer;
+    background: none; border: none; padding: 4px;
+  }
+  .nav-toggle span {
+    display: block; width: 24px; height: 2px;
+    background: var(--smoke); transition: all .3s;
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.1rem 1.5rem; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10,9,8,0.97);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 2.5rem; z-index: 99;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { font-size: 1.1rem; }
+    .nav-close {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: none; border: none; color: var(--smoke);
+      font-size: 1.8rem; cursor: pointer; line-height: 1;
+    }
   }
 
   /* ── HERO ── */
@@ -95,6 +121,7 @@
     font-size: clamp(3rem, 8vw, 7rem); line-height:.95;
     letter-spacing:-.03em; position:relative; z-index:1;
     max-width: 900px;
+    padding-top: 2rem;
   }
   h1 em { color:var(--verd); font-style:normal; }
   .hero-sub {
@@ -109,6 +136,7 @@
     padding:.85rem 2rem; font-family:'Syne',sans-serif; font-weight:700;
     font-size:.85rem; letter-spacing:.06em; text-transform:uppercase;
     border:none; cursor:pointer; transition:background .25s, transform .2s;
+    text-decoration: none; display: inline-block;
   }
   .btn-primary:hover{ background:#00c4b0; transform:translateY(-2px); }
   .btn-outline {
@@ -116,6 +144,7 @@
     padding:.85rem 2rem; font-family:'Syne',sans-serif; font-weight:600;
     font-size:.85rem; letter-spacing:.06em; text-transform:uppercase;
     border:1px solid rgba(242,244,243,.3); cursor:pointer; transition:border-color .25s;
+    text-decoration: none; display: inline-block;
   }
   .btn-outline:hover{ border-color:var(--verd); color:var(--verd); }
 
@@ -155,12 +184,6 @@
 
   /* ── ABOUT ── */
   #about { background: linear-gradient(180deg, var(--black) 0%, rgba(5,102,141,0.06) 100%); }
-  .competition-pill {
-    display:inline-flex; align-items:center; gap:.5rem;
-    background:rgba(0,168,150,0.1); border:1px solid rgba(0,168,150,0.3);
-    padding:.5rem 1rem; border-radius:2px; margin-top:1.5rem;
-    font-size:.8rem; color:var(--verd); letter-spacing:.06em;
-  }
 
   /* ── TECHNOLOGY ── */
   #technology { background: var(--black); }
@@ -191,6 +214,12 @@
     color:var(--verd); background:rgba(0,168,150,0.1);
     padding:.25rem .6rem; border-radius:2px;
   }
+  .tech-card .sub-note {
+    margin-top:1rem; padding-top:1rem;
+    border-top:1px solid rgba(0,168,150,0.12);
+    font-size:.82rem; color:rgba(0,168,150,.7); line-height:1.65;
+  }
+  .tech-card .sub-note strong { color:var(--verd); font-weight:500; }
 
   /* ── PROCESS ── */
   #process { background: rgba(5,102,141,0.04); border-top:1px solid rgba(0,168,150,0.08); border-bottom:1px solid rgba(0,168,150,0.08); }
@@ -198,15 +227,16 @@
     display:grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
     gap:0; margin-top:3.5rem; position:relative;
   }
+  /* Line sits BELOW the numbers */
   .process-steps::before {
-    content:''; position:absolute; top:2.2rem; left:0; right:0; height:1px;
+    content:''; position:absolute; top:5rem; left:0; right:0; height:1px;
     background:linear-gradient(90deg, transparent, var(--verd), transparent);
     opacity:.3;
   }
   .step { padding:0 1.5rem 0 0; position:relative; }
   .step-num {
     font-family:'Syne',sans-serif; font-weight:800; font-size:3rem;
-    color:rgba(0,168,150,0.15); line-height:1; margin-bottom:1.5rem;
+    color:rgba(0,168,150,0.2); line-height:1; margin-bottom:1.5rem;
   }
   .step h3 {
     font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem;
@@ -274,13 +304,78 @@
   }
   .sk-interest::before{ content:'↗'; }
 
-  /* ── COSTS ── */
-  #costs { background:var(--black); }
-  .cost-coming-soon {
-    margin-top:3rem; border:1px dashed rgba(0,168,150,0.25);
-    padding:3rem; text-align:center;
+  /* ── PERMITS ── */
+  #permits { background: var(--black); }
+  .permits-grid {
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr));
+    gap:1px; background:rgba(0,168,150,0.08);
+    border:1px solid rgba(0,168,150,0.08); margin-top:3.5rem;
   }
-  .cost-coming-soon p { color:rgba(242,244,243,.35); font-size:.9rem; letter-spacing:.06em; }
+  .permit-card {
+    background:var(--black); padding:2rem 1.8rem;
+    transition:background .3s; position:relative;
+  }
+  .permit-card:hover { background:rgba(0,168,150,0.04); }
+  .permit-issuer {
+    font-size:.65rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--baltic); margin-bottom:.6rem;
+    background:rgba(5,102,141,0.15); display:inline-block;
+    padding:.2rem .6rem; border-radius:2px;
+  }
+  .permit-card h3 {
+    font-family:'Syne',sans-serif; font-weight:700; font-size:1rem;
+    margin-bottom:.6rem; color:var(--smoke);
+  }
+  .permit-card p { font-size:.85rem; color:rgba(242,244,243,.5); line-height:1.65; }
+
+  /* ── COSTS ── */
+  #costs { background: rgba(5,102,141,0.04); border-top:1px solid rgba(0,168,150,0.08); }
+  .cost-table {
+    margin-top:3rem; width:100%; max-width:680px;
+    border-collapse:collapse;
+  }
+  .cost-table tr { border-bottom:1px solid rgba(0,168,150,0.08); }
+  .cost-table tr:last-child { border-bottom:none; }
+  .cost-table td {
+    padding:.85rem 1rem; font-size:.9rem; color:rgba(242,244,243,.65);
+  }
+  .cost-table td:first-child { color:rgba(242,244,243,.45); font-size:.82rem; letter-spacing:.04em; }
+  .cost-table td:last-child { text-align:right; font-family:'Syne',sans-serif; font-weight:600; color:var(--smoke); }
+  .cost-table .cost-section td {
+    font-size:.68rem; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--verd); padding-top:1.5rem; padding-bottom:.4rem;
+  }
+  .cost-table .cost-total td {
+    font-family:'Syne',sans-serif; font-weight:800;
+    font-size:1.1rem; color:var(--verd);
+    border-top:1px solid rgba(0,168,150,0.3); padding-top:1.2rem;
+  }
+
+  /* ── FUTURE EXPANSION ── */
+  #expansion { background: var(--black); }
+  .expansion-grid {
+    display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr));
+    gap:1.5rem; margin-top:3.5rem;
+  }
+  .expansion-card {
+    border:1px solid rgba(0,168,150,0.15); padding:2rem 1.5rem;
+    position:relative; transition:border-color .3s, transform .3s;
+  }
+  .expansion-card:hover{ border-color:var(--verd); transform:translateY(-4px); }
+  .exp-type {
+    font-size:.65rem; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--verd); margin-bottom:.8rem;
+  }
+  .expansion-card h3 {
+    font-family:'Syne',sans-serif; font-weight:700; font-size:1.05rem;
+    margin-bottom:.6rem;
+  }
+  .expansion-card p { font-size:.85rem; color:rgba(242,244,243,.5); line-height:1.65; }
+  .exp-value {
+    margin-top:1rem; font-size:.75rem; letter-spacing:.06em;
+    color:rgba(0,168,150,.7); display:flex; align-items:center; gap:.4rem;
+  }
+  .exp-value::before{ content:'£'; }
 
   /* ── FOOTER ── */
   footer {
@@ -294,15 +389,20 @@
   }
   .footer-logo span{ color:var(--verd); }
   footer p { font-size:.8rem; color:rgba(242,244,243,.35); }
-  .eeegr-badge {
-    font-size:.7rem; letter-spacing:.1em; text-transform:uppercase;
-    color:var(--baltic); border:1px solid var(--baltic);
-    padding:.3rem .7rem;
-  }
 
   /* ── SCROLL REVEAL ── */
   .reveal { opacity:0; transform:translateY(30px); transition:opacity .7s ease, transform .7s ease; }
   .reveal.visible { opacity:1; transform:none; }
+
+  @media (max-width: 600px) {
+    section { padding:5rem 1.5rem; }
+    #hero { padding:0 1.5rem 4rem; }
+    nav { padding:1rem 1.5rem; }
+    .stats-bar { padding:2rem 1.5rem; }
+    footer { padding:2rem 1.5rem; }
+    .process-steps { grid-template-columns:1fr 1fr; }
+    .cost-table td { padding:.7rem .5rem; }
+  }
 </style>
 </head>
 <body>
@@ -310,15 +410,20 @@
 <!-- NAV -->
 <nav>
   <div class="logo">Eco<span>Volt</span></div>
-  <ul class="nav-links">
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <button class="nav-close" id="navClose" aria-label="Close menu">✕</button>
     <li><a href="#about">About</a></li>
     <li><a href="#technology">Technology</a></li>
     <li><a href="#process">Process</a></li>
     <li><a href="#location">Location</a></li>
     <li><a href="#stakeholders">Stakeholders</a></li>
+    <li><a href="#permits">Permits</a></li>
     <li><a href="#costs">Costs</a></li>
+    <li><a href="#expansion">Expansion</a></li>
   </ul>
-  <div class="nav-badge">EEEGR 2026</div>
 </nav>
 
 <!-- HERO -->
@@ -328,15 +433,15 @@
     <div class="ring"></div>
     <div class="ring"></div>
   </div>
-  <div class="hero-tag">EcoVolt — EEEGR Energy Competition</div>
+  <div class="hero-tag">EcoVolt — Green Hydrogen</div>
   <h1>Locally Produced<br><em>Green Hydrogen</em></h1>
   <p class="hero-sub">
-    A community-scale PEM electrolyser plant delivering zero-carbon hydrogen fuel, 
-    manufactured on-site using renewable energy — right here in our local area.
+    A community-scale PEM electrolyser plant that stores surplus renewable electricity 
+    as hydrogen — and converts it back to power when the grid needs it, with zero carbon emissions.
   </p>
   <div class="hero-ctas">
-    <button class="btn-primary" onclick="document.getElementById('technology').scrollIntoView({behavior:'smooth'})">Explore the Plant</button>
-    <button class="btn-outline" onclick="document.getElementById('stakeholders').scrollIntoView({behavior:'smooth'})">Our Stakeholders</button>
+    <a class="btn-primary" href="#technology">Explore the Plant</a>
+    <a class="btn-outline" href="#stakeholders">Our Stakeholders</a>
   </div>
 </section>
 
@@ -348,7 +453,7 @@
   </div>
   <div class="stat">
     <div class="stat-num">H₂O</div>
-    <div class="stat-label">On-site Water Treatment</div>
+    <div class="stat-label">On-site Desalination</div>
   </div>
   <div class="stat">
     <div class="stat-num">0 CO₂</div>
@@ -365,79 +470,100 @@
   <div class="section-tag">About the Project</div>
   <h2>Green Hydrogen<br>for <em>Our Community</em></h2>
   <p class="section-intro reveal">
-    EcoVolt is a student-led engineering proposal entered into the EEEGR Energy Competition. 
-    We are designing a fully integrated green hydrogen production facility — from water intake 
-    and electrolysis to compressed storage and a public fuelling station — to demonstrate 
-    that clean hydrogen can be produced locally at a community scale.
+    EcoVolt is a student-led engineering proposal designing a fully integrated green hydrogen 
+    production facility — from seawater desalination and electrolysis through to compressed 
+    storage, electricity regeneration, and a public fuelling station. Our core mission is to 
+    act as a long-duration energy store: capturing surplus renewable electricity as hydrogen 
+    and releasing it back to the grid when demand is high.
   </p>
-  <div class="competition-pill reveal">🏆 EEEGR Energy Competition Entry — EcoVolt 2026</div>
 </section>
 
 <!-- TECHNOLOGY -->
 <section id="technology">
   <div class="section-tag">Core Infrastructure</div>
-  <h2>Four Systems,<br><em>One Plant</em></h2>
+  <h2>Explore<br><em>the Plant</em></h2>
   <p class="section-intro reveal">
-    Our facility integrates four key components working in sequence to produce, store, 
+    Our facility integrates four key systems working in sequence to produce, store, 
     and distribute green hydrogen with maximum efficiency and minimal environmental impact.
   </p>
   <div class="tech-grid reveal">
+
     <div class="tech-card">
       <div class="tech-status">Core</div>
       <div class="tech-icon">⚡</div>
       <h3>PEM Electrolyser</h3>
-      <p>A Proton Exchange Membrane electrolyser splits purified water into hydrogen and oxygen using renewable electricity. High efficiency, fast response, compact footprint.</p>
+      <p>A Proton Exchange Membrane electrolyser splits ultrapure water into hydrogen and oxygen using surplus renewable electricity. High efficiency, fast response to grid signals, compact footprint.</p>
+      <div class="sub-note">
+        <strong>Heat recovery:</strong> Waste heat from the PEM stack is captured and used to dry the salt by-product from desalination — turning a process cost into a circular resource.
+      </div>
     </div>
+
     <div class="tech-card">
       <div class="tech-status">Upstream</div>
-      <div class="tech-icon">💧</div>
+      <div class="tech-icon">🌊</div>
       <h3>Water Treatment Plant</h3>
-      <p>On-site ultrapure water production using reverse osmosis and deionisation. Ensures the PEM stack receives feedwater meeting IEC 62282 specifications.</p>
+      <p>We produce our own ultrapure feedwater on-site rather than relying on mains supply. Seawater is drawn in and passed through a two-stage process:</p>
+      <div class="sub-note">
+        <strong>Stage 1 — Desalination:</strong> Reverse osmosis removes dissolved salts, producing clean fresh water. The concentrated brine by-product can be dried and sold as industrial salt.<br><br>
+        <strong>Stage 2 — Deionisation:</strong> The desalinated water is further purified by deionisation to remove residual ions, meeting IEC 62282 feedwater specifications for PEM electrolysers.<br><br>
+        Any water that doesn't reach the required purity grade can be sold to water companies as clean, pre-treated water — reducing waste to near zero.
+      </div>
     </div>
+
     <div class="tech-card">
       <div class="tech-status">Storage</div>
       <div class="tech-icon">🔒</div>
       <h3>Hydrogen Storage</h3>
-      <p>Compressed gaseous hydrogen stored in high-pressure vessels on site. Buffer capacity decouples production from demand, enabling 24/7 availability.</p>
+      <p>Compressed gaseous hydrogen stored in high-pressure vessels on site. Buffer capacity decouples production from demand, enabling hydrogen to be dispatched to either the fuelling station or back to the grid via a fuel cell or turbine as needed.</p>
     </div>
+
     <div class="tech-card">
       <div class="tech-status">Offtake</div>
-      <div class="tech-icon">⛽</div>
-      <h3>Fuelling Station</h3>
-      <p>A basic hydrogen refuelling point for fuel cell vehicles and local fleet operators. First-of-kind infrastructure for our local area, enabling regional decarbonisation.</p>
+      <div class="tech-icon">⚡</div>
+      <h3>Power Regeneration & Fuelling</h3>
+      <p>Stored hydrogen serves a dual purpose. Primarily, it can be combusted or fed through a fuel cell to regenerate electricity for the grid during periods of high demand — acting as long-duration storage. Secondarily, a fuelling point provides hydrogen to local fleet operators and fuel cell vehicles.</p>
+      <div class="sub-note">
+        <strong>Oxygen by-product:</strong> Oxygen produced during electrolysis is captured (not vented). If certified to medical grade, it can be supplied to local NHS facilities including James Paget University Hospital — creating an additional revenue stream.
+      </div>
     </div>
+
   </div>
 </section>
 
 <!-- PROCESS -->
 <section id="process">
   <div class="section-tag">How It Works</div>
-  <h2>From <em>Electrons</em><br>to Fuel</h2>
+  <h2><em>The</em> Processes</h2>
   <div class="process-steps reveal">
     <div class="step">
       <div class="step-num">01</div>
       <h3>Renewable Input</h3>
-      <p>Grid or direct renewable electricity powers the facility during periods of surplus generation.</p>
+      <p>Surplus grid or direct renewable electricity powers the facility, absorbing energy that would otherwise be curtailed.</p>
     </div>
     <div class="step">
       <div class="step-num">02</div>
-      <h3>Water Treatment</h3>
-      <p>Mains water is purified on-site to ultrapure standard before entering the electrolyser stack.</p>
+      <h3>Desalination</h3>
+      <p>Seawater is drawn in and desalinated on-site via reverse osmosis, producing clean feedwater and a salt by-product.</p>
     </div>
     <div class="step">
       <div class="step-num">03</div>
-      <h3>Electrolysis</h3>
-      <p>The PEM stack splits H₂O into hydrogen and oxygen gas. Oxygen is vented; hydrogen is captured.</p>
+      <h3>Deionisation</h3>
+      <p>Desalinated water is further purified to ultrapure standard before entering the PEM electrolyser stack.</p>
     </div>
     <div class="step">
       <div class="step-num">04</div>
-      <h3>Compression & Storage</h3>
-      <p>Hydrogen is compressed and stored on-site in high-pressure tanks, ready for dispensing.</p>
+      <h3>Electrolysis</h3>
+      <p>The PEM stack splits H₂O into hydrogen and oxygen gas. Both gases are captured for use — hydrogen for storage, oxygen for potential medical sale.</p>
     </div>
     <div class="step">
       <div class="step-num">05</div>
-      <h3>Fuelling</h3>
-      <p>Vehicles and local users access hydrogen at our on-site fuelling station — zero tailpipe emissions.</p>
+      <h3>Compression & Storage</h3>
+      <p>Hydrogen is compressed and stored in high-pressure tanks on site, ready for dispatch to grid or fuelling.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">06</div>
+      <h3>Power or Fuel</h3>
+      <p>Hydrogen is either converted back to electricity for grid export during peak demand, or dispensed as fuel at our on-site fuelling point.</p>
     </div>
   </div>
 </section>
@@ -448,7 +574,7 @@
   <h2>A Local<br><em>Solution</em></h2>
   <p class="section-intro reveal">
     The exact site is currently under evaluation. We are assessing locations in our local area 
-    based on grid connection availability, water access, transport links, and planning constraints. 
+    based on grid connection availability, coastal water access, transport links, and planning constraints. 
     The map will be updated once a site has been confirmed.
   </p>
   <div class="map-placeholder reveal">
@@ -494,16 +620,78 @@
     </div>
     <div class="stakeholder-card">
       <div class="sk-type">Offtake</div>
-      <h3>Fleet Operators</h3>
-      <p>Local businesses and transport operators who would become hydrogen fuel customers, providing revenue certainty.</p>
+      <h3>Fleet Operators & NHS</h3>
+      <p>Local businesses, transport operators, and NHS facilities — potential customers for hydrogen fuel and medical-grade oxygen respectively.</p>
       <div class="sk-interest">Fuel cost, supply reliability</div>
     </div>
     <div class="stakeholder-card">
       <div class="sk-type">Energy</div>
       <h3>Grid / Renewables</h3>
-      <p>The electricity network and renewable generators whose surplus power will feed the electrolyser.</p>
+      <p>The electricity network and renewable generators whose surplus power will feed the electrolyser and receive stored energy back on demand.</p>
       <div class="sk-interest">Curtailment value, grid stability</div>
     </div>
+  </div>
+</section>
+
+<!-- PERMITS -->
+<section id="permits">
+  <div class="section-tag">Regulatory Pathway</div>
+  <h2>Permits &<br><em>Approvals</em></h2>
+  <p class="section-intro reveal">
+    Before construction begins, EcoVolt must secure a series of permits and consents from 
+    national and local regulatory bodies. Each approval addresses a different aspect of the 
+    plant's operation — from physical construction through to gas safety and water abstraction.
+  </p>
+  <div class="permits-grid reveal">
+
+    <div class="permit-card">
+      <div class="permit-issuer">Local Planning Authority</div>
+      <h3>Planning Permission</h3>
+      <p>Approval from Norfolk or Suffolk County Council for the physical construction of the plant, including site access, buildings, and infrastructure.</p>
+    </div>
+
+    <div class="permit-card">
+      <div class="permit-issuer">Environment Agency</div>
+      <h3>Bespoke Environmental Permit</h3>
+      <p>The primary operating licence covering hydrogen production, water treatment processes, and air emissions from the site. This is the most comprehensive permit required.</p>
+    </div>
+
+    <div class="permit-card">
+      <div class="permit-issuer">HSE / Local Authority</div>
+      <h3>Hazardous Substances Consent</h3>
+      <p>Required because the plant will store over 2 tonnes of both hydrogen and oxygen on site. Involves a formal safety consultation with the Health and Safety Executive.</p>
+    </div>
+
+    <div class="permit-card">
+      <div class="permit-issuer">Environment Agency</div>
+      <h3>Water Abstraction Licence</h3>
+      <p>Permission to draw seawater for the on-site desalination unit. Granted by the Environment Agency and subject to environmental impact assessment.</p>
+    </div>
+
+    <div class="permit-card">
+      <div class="permit-issuer">Environment Agency</div>
+      <h3>End-of-Waste Assessment</h3>
+      <p>A formal agreement certifying that the evaporated salt produced during desalination qualifies as a marketable product rather than a controlled waste — enabling commercial sale.</p>
+    </div>
+
+    <div class="permit-card">
+      <div class="permit-issuer">MHRA</div>
+      <h3>Medical Oxygen Authorisation</h3>
+      <p>Licensing from the Medicines and Healthcare products Regulatory Agency to classify and sell oxygen produced during electrolysis as Medical Grade — a prerequisite for NHS supply.</p>
+    </div>
+
+    <div class="permit-card">
+      <div class="permit-issuer">National Grid / DNO</div>
+      <h3>Grid Connection Agreement</h3>
+      <p>A Flexible Connection agreement with the National Grid or local Distribution Network Operator to access curtailed renewable energy and export stored power back to the grid.</p>
+    </div>
+
+    <div class="permit-card">
+      <div class="permit-issuer">HSE</div>
+      <h3>COMAH Notification</h3>
+      <p>Control of Major Accident Hazards — a mandatory safety framework required when storing large volumes of flammable (H₂) and oxidising (O₂) gases on a single site.</p>
+    </div>
+
   </div>
 </section>
 
@@ -512,28 +700,118 @@
   <div class="section-tag">Cost Breakdown</div>
   <h2>Project<br><em>Financials</em></h2>
   <p class="section-intro reveal">
-    A full cost model covering capital expenditure, operations & maintenance, 
-    stack replacement cycles, and levelised cost of hydrogen (LCOH) will be added here 
-    once the financial analysis is complete.
+    A full capital expenditure breakdown covering land, civil works, core plant, 
+    professional fees, and contingency. All figures in GBP millions.
   </p>
-  <div class="cost-coming-soon reveal">
-    <p>COST DATA COMING SOON — CHECK BACK AFTER SUBMISSION</p>
+
+  <table class="cost-table reveal">
+    <tr class="cost-section"><td colspan="2">Land & Site Preparation</td></tr>
+    <tr><td>Land acquisition</td><td>£2.80m</td></tr>
+    <tr><td>Levelling & groundworks</td><td>£0.70m</td></tr>
+
+    <tr class="cost-section"><td colspan="2">Regulatory & Safety</td></tr>
+    <tr><td>Permits & licences</td><td>£0.30m</td></tr>
+    <tr><td>Safety systems</td><td>£0.18m</td></tr>
+
+    <tr class="cost-section"><td colspan="2">Civil & Site Infrastructure</td></tr>
+    <tr><td>Site infrastructure</td><td>£0.65m</td></tr>
+    <tr><td>Electrical systems</td><td>£2.00m</td></tr>
+
+    <tr class="cost-section"><td colspan="2">Core Plant Equipment</td></tr>
+    <tr><td>Water treatment & desalination</td><td>£0.40m</td></tr>
+    <tr><td>PEM electrolyser</td><td>£5.50m</td></tr>
+    <tr><td>Cooling systems</td><td>£0.80m</td></tr>
+    <tr><td>Hydrogen storage</td><td>£2.00m</td></tr>
+    <tr><td>Compression systems</td><td>£1.20m</td></tr>
+    <tr><td>Fuelling station</td><td>£0.80m</td></tr>
+
+    <tr class="cost-section"><td colspan="2">Professional Fees</td></tr>
+    <tr><td>Labour (30% of above)</td><td>£5.20m</td></tr>
+    <tr><td>Design & engineering</td><td>£1.39m</td></tr>
+    <tr><td>Project management</td><td>£1.04m</td></tr>
+    <tr><td>Commissioning</td><td>£0.52m</td></tr>
+
+    <tr class="cost-section"><td colspan="2">Risk</td></tr>
+    <tr><td>Contingency (20%)</td><td>£3.47m</td></tr>
+
+    <tr class="cost-total"><td>Total Capital Cost</td><td>£28.95m</td></tr>
+  </table>
+</section>
+
+<!-- FUTURE EXPANSION -->
+<section id="expansion">
+  <div class="section-tag">Circular Economy</div>
+  <h2>Future<br><em>Expansion</em></h2>
+  <p class="section-intro reveal">
+    EcoVolt is designed to waste nothing. Every by-product and input stream is a potential 
+    revenue source — creating a circular economy where the plant's outputs fund its own 
+    long-term operation and growth.
+  </p>
+  <div class="expansion-grid reveal">
+
+    <div class="expansion-card">
+      <div class="exp-type">By-product Revenue</div>
+      <h3>Industrial Salt Sales</h3>
+      <p>Salt produced during seawater desalination is dried using waste heat recovered from the PEM electrolyser stack — eliminating drying costs. Dry salt is then transported and sold to industry, turning a process by-product into a direct revenue stream.</p>
+      <div class="exp-value">Waste heat utilised</div>
+    </div>
+
+    <div class="expansion-card">
+      <div class="exp-type">Healthcare Revenue</div>
+      <h3>Medical-Grade Oxygen</h3>
+      <p>Oxygen produced during electrolysis is captured and, if certified to MHRA medical grade with an oxygen purity analyser on-site, supplied to local NHS facilities. James Paget University Hospital in Gorleston is the primary target customer.</p>
+      <div class="exp-value">NHS supply pipeline</div>
+    </div>
+
+    <div class="expansion-card">
+      <div class="exp-type">Water Revenue</div>
+      <h3>Treated Water Sales</h3>
+      <p>Water that has been desalinated but does not meet the full deionisation specification for PEM feedwater can be sold to regional water companies as clean, pre-treated water — rather than being discharged as waste.</p>
+      <div class="exp-value">Zero liquid waste target</div>
+    </div>
+
+    <div class="expansion-card">
+      <div class="exp-type">Transport Revenue</div>
+      <h3>Expanded Fuelling Station</h3>
+      <p>As local hydrogen vehicle adoption grows, the fuelling point could be expanded into a full-scale hydrogen refuelling station — comparable to a conventional petrol station — serving passenger vehicles, HGVs, and local fleet operators.</p>
+      <div class="exp-value">Growth infrastructure</div>
+    </div>
+
+    <div class="expansion-card">
+      <div class="exp-type">Fleet Contract</div>
+      <h3>First Bus Partnership</h3>
+      <p>First Bus operates local services in the region and is a natural offtake partner for bulk hydrogen supply. A long-term supply agreement would provide revenue certainty and support the decarbonisation of public transport across Norfolk.</p>
+      <div class="exp-value">Long-term offtake contract</div>
+    </div>
+
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">Eco<span>Volt</span></div>
-  <p>EEEGR Energy Competition 2026 — Student Project Entry</p>
-  <div class="eeegr-badge">EEEGR</div>
+  <p>EcoVolt Green Hydrogen Plant — Student Project</p>
+  <a href="#about" style="color:rgba(242,244,243,.4); text-decoration:none; font-size:.78rem;">↑ Back to top</a>
 </footer>
 
 <script>
+  // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.08 });
   reveals.forEach(r => io.observe(r));
+
+  // Mobile nav
+  const toggle = document.getElementById('navToggle');
+  const links  = document.getElementById('navLinks');
+  const close  = document.getElementById('navClose');
+
+  toggle.addEventListener('click', () => links.classList.add('open'));
+  close.addEventListener('click',  () => links.classList.remove('open'));
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => links.classList.remove('open'));
+  });
 </script>
 </body>
 </html>
